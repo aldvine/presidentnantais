@@ -278,3 +278,24 @@ public class TestHandler extends DefaultHandler {
     }
 
 }
+
+class Organe {
+    public String code;
+    public String libelle;
+}
+class Mandat {
+    public String dateDebut;
+    public String datePublication;
+    public String dateFin;
+    public String legislature;
+    public String organeRef;
+    public Boolean president = false;
+}
+class Acteur {
+    public String nom;
+    public String prenom;
+    public String dateNaissance;
+    public ArrayList<Mandat> mandats;
+    public Boolean isNantais = false;
+    public Boolean isPresident = false;
+}
