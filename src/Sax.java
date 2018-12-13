@@ -41,14 +41,14 @@ public class Sax extends DefaultHandler {
 
         DefaultHandler handler = new Sax();
         try {
-            long startTime = System.currentTimeMillis();
+            // long startTime = System.currentTimeMillis();
             XMLReader saxParser = XMLReaderFactory.createXMLReader();
             saxParser.setContentHandler(handler);
             saxParser.setErrorHandler(handler);
             
             saxParser.parse("AMO30_tous_acteurs_tous_mandats_tous_organes_historique.xml");
-            long endTime = System.currentTimeMillis();
-            System.out.println("That took " + (endTime - startTime) + " milliseconds");
+            // long endTime = System.currentTimeMillis();
+            // System.out.println("That took " + (endTime - startTime) + " milliseconds");
 
         } catch (Throwable t) {
             t.printStackTrace();
@@ -56,8 +56,7 @@ public class Sax extends DefaultHandler {
         System.exit(0);
     }
     public String utf8_encode(String chaine){
-      
- // TODO
+        // TODO
         return chaine;
     }
 
@@ -65,11 +64,6 @@ public class Sax extends DefaultHandler {
         for (Organe org : this.lesOrganes) {
             System.out.println("organe : " + org.code + " " + org.libelle);
         }
-        // for (int i = 0; i < this.lesOrganes.size(); i++) {
-        // System.out.println("organe : " + this.lesOrganes.get(i).code + " "+
-        // this.lesOrganes.get(i).libelle);
-
-        // }
     }
 
     // Méthodes surchargées

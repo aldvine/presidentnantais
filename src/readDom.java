@@ -1,27 +1,25 @@
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
+import java.util.ArrayList;
 
-import Organe.java;
-import Acteur.Java;
-import Mandat mandat;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
-class readDom {
+class ReadDom {
 	public Document doc;
 	Organe organe;
     Acteur acteur;
     Mandat mandat;
 	
-	public void read(Node n) {
+	public void read(Node n,ReadDom dom) {
 		System.out.println("<nantais>");
-		if (n.nodeType()==Node.ELEMENT_NODE) {
+		if (n.getNodeType()==Node.ELEMENT_NODE) {
 			Element el = (Element)n;
-			if (el.tagName().equals("acteurs")){
-				NodeList nl = n.childNodes();
-				for(int i=0;i<nl.length();i++) {
+			if (el.getTagName().equals("acteurs")){
+				NodeList nl = n.getChildNodes();
+				for(int i=0;i<nl.getLength();i++) {
 					
 					this.acteur = new Acteur();
 					this.acteur.isNantais = false;
@@ -60,7 +58,7 @@ class readDom {
 					}
 				}
 			}else {
-				this.read(n.getNextSibling());
+				this.read(n.getNextSibling(),dom);
 			}
 		}
 		System.out.println("</nantais>");
@@ -68,116 +66,116 @@ class readDom {
 	
 	public void readOrganes(Node n, Mandat unMandat) {
 		Element el = (Element)n;
-		if (el.tagName().equals("organes")){
-			this.readOrgane(n.childNodes().item(0), unMandat);
+		if (el.getTagName().equals("organes")){
+			this.readOrgane(n.getChildNodes().item(0), unMandat);
 		}
-		if (n.nextSibling()!=null){
-			this.readOrganes(n.nextSibling());
+		if (n.getNextSibling()!=null){
+			this.readOrganes(n.getNextSibling(),unMandat);
 		}
 	}
 	
 	public void readOrgane(Node n, Mandat unMandat) {
 		Element el = (Element)n;
-		if (el.tagName().equals("uid") && n.nodeValue().equals(unMandat.organeRef) {
-			this.organe.code = n.nodeValue();
+		if (el.getTagName().equals("uid") && n.getNodeValue().equals(unMandat.organeRef)) {
+			this.organe.code = n.getNodeValue();
 		}
-		if (el.tagName().equals("libelle") && this.organe.code.equals(unMandat.organeRef) {
-			this.organe.libelle = n.nodeValue();
+		if (el.getTagName().equals("libelle") && this.organe.code.equals(unMandat.organeRef)) {
+			this.organe.libelle = n.getNodeValue();
 		}
-		if (n.nextSibling()!=null){
-			this.readOrgane(n.nextSibling());
+		if (n.getNextSibling()!=null){
+			this.readOrgane(n.getNextSibling(),unMandat);
 		}
 	}
 	
 	public void readActeur(Node n) {
 		Element el = (Element)n;
-		if (el.tagName().equals("etatCivil")){
-			this.readEtatCivil(n.childNodes().item(0));
+		if (el.getTagName().equals("etatCivil")){
+			this.readEtatCivil(n.getChildNodes().item(0));
 		}
-		if (el.tagName().equals("mandats")) {
-			NodeList nl = n.childNodes();
-			for(int i=0;i<nl.length();i++) {
+		if (el.getTagName().equals("mandats")) {
+			NodeList nl = n.getChildNodes();
+			for(int i=0;i<nl.getLength();i++) {
 				this.mandat = new Mandat();
 				this.readMandat(nl.item(i));
 				this.acteur.mandats.add(this.mandat);
 			}
-			this.readMandats(n.childNodes().item(0));
+			this.readMandat(n.getChildNodes().item(0));
 		}
-		if (n.nextSibling()!=null){
-			this.readActeur(n.nextSibling());
+		if (n.getNextSibling()!=null){
+			this.readActeur(n.getNextSibling());
 		}
 	}
 	
 	public void readEtatCivil(Node n) {
 		Element el = (Element)n;
-		if (el.tagName().equals("ident")){
-			this.readIdent(n.childNodes().item(0));
+		if (el.getTagName().equals("ident")){
+			this.readIdent(n.getChildNodes().item(0));
 		}
-		if (el.tagName().equals("infoNaissance")) {
-			this.readInfoNaissance(n.childNodes().item(0));
+		if (el.getTagName().equals("infoNaissance")) {
+			this.readInfoNaissance(n.getChildNodes().item(0));
 		}
-		if (n.nextSibling()!=null){
-			this.readEtatCivil(n.nextSibling());
+		if (n.getNextSibling()!=null){
+			this.readEtatCivil(n.getNextSibling());
 		}
 	}
 	
 	public void readIdent(Node n) {
 		Element el = (Element)n;
-		if (el.tagName().equals("prenom")){
-			this.acteur.nom = n.nodeValue();
+		if (el.getTagName().equals("prenom")){
+			this.acteur.nom = n.getNodeValue();
 		}
-		if (el.tagName().equals("nom")) {
-			this.acteur.prenom = n.nodeValue();
+		if (el.getTagName().equals("nom")) {
+			this.acteur.prenom = n.getNodeValue();
 		}
-		if (n.nextSibling()!=null){
-			this.readIdent(n.nextSibling());
+		if (n.getNextSibling()!=null){
+			this.readIdent(n.getNextSibling());
 		}
 	}
 	
 	public void readInfoNaissance(Node n) {
 		Element el = (Element)n;
-		if (el.tagName().equals("villeNais") && n.nodeValue().equals("Nantes")){
+		if (el.getTagName().equals("villeNais") && n.getNodeValue().equals("Nantes")){
 			this.acteur.isNantais = true;
 		}
-		if (n.nextSibling()!=null){
-			this.readInfoNaissance(n.nextSibling());
+		if (n.getNextSibling()!=null){
+			this.readInfoNaissance(n.getNextSibling());
 		}
 	}
 	
 	public void readMandat(Node n) {
 		Element el = (Element)n;
-		if (el.tagName().equals("dateDebut")){
-			this.mandat.dateDebut = n.nodeValue();
+		if (el.getTagName().equals("dateDebut")){
+			this.mandat.dateDebut = n.getNodeValue();
 		}
-		if (el.tagName().equals("datePublication")){
-			this.mandat.datePub = n.nodeValue();
+		if (el.getTagName().equals("datePublication")){
+			this.mandat.datePublication = n.getNodeValue();
 		}
-		if (el.tagName().equals("dateFin")){
-			this.mandat.dateFin = n.nodeValue();
+		if (el.getTagName().equals("dateFin")){
+			this.mandat.dateFin = n.getNodeValue();
 		}
-		if (el.tagName().equals("legislature")){
-			this.mandat.legislature = n.nodeValue();
+		if (el.getTagName().equals("legislature")){
+			this.mandat.legislature = n.getNodeValue();
 		}
-		if (el.tagName().equals("infosQualite")){
+		if (el.getTagName().equals("infosQualite")){
 			this.mandat.president = false;
-			this.readInfosQualite(n.childNodes().item(0));
+			this.readInfosQualite(n.getChildNodes().item(0));
 		}
-		if (el.tagName().equals("organes")){
-			this.mandat.organeRef = n.firstChild().nodeValue();
+		if (el.getTagName().equals("organes")){
+			this.mandat.organeRef = n.getFirstChild().getNodeValue();
 		}
-		if (n.nextSibling()!=null){
-			this.readMandat(n.nextSibling());
+		if (n.getNextSibling()!=null){
+			this.readMandat(n.getNextSibling());
 		}
 	}
 	
 	public void readInfosQualite(Node n) {
 		Element el = (Element)n;
-		if (el.tagName()=="codeQualite" && n.nodeValue.equals("Président")){
+		if (el.getTagName()=="codeQualite" && n.getNodeValue().equals("Président")){
 			this.mandat.president = true;
 			this.acteur.isPresident = true;
 		}
-		if (n.nextSibling()!=null){
-			this.readInfosQualite(n.nextSibling());
+		if (n.getNextSibling()!=null){
+			this.readInfosQualite(n.getNextSibling());
 		}
 	}
 	
@@ -190,12 +188,12 @@ class readDom {
 	}
 	
 	public static void main(String argv[]) {
-	  readDom dom = new readDom();
+	  ReadDom dom = new ReadDom();
 	  dom.load("AMO30_tous_acteurs_tous_mandats_tous_organes_historique.xml");
-	  dom.read(dom.doc.getDocumentElement().getChildNodes().item(0)));
+	  dom.read(dom.doc.getDocumentElement().getChildNodes().item(0),dom);
 	}
 }
-
+	
 class Organe {
     public String code;
     public String libelle;
