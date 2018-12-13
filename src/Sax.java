@@ -8,7 +8,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 // Description du gestionnaire d'événements spécifique
-public class TestHandler extends DefaultHandler {
+public class Sax extends DefaultHandler {
     // Mise en place de l'analyseur et insertion du gestionnaire spécifique
     Boolean inOrgane = false;
     Boolean inUid = false;
@@ -35,9 +35,8 @@ public class TestHandler extends DefaultHandler {
     // Organe lesOrganes = new ArrayList<>();
 
     public static void main(String[] args) {
-        DefaultHandler handler = new TestHandler();
+        DefaultHandler handler = new Sax();
         try {
-
             long startTime = System.currentTimeMillis();
             XMLReader saxParser = XMLReaderFactory.createXMLReader();
             saxParser.setContentHandler(handler);
