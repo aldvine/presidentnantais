@@ -16,11 +16,11 @@ class readDom {
     Mandat mandat;
 	
 	public void read(Node n) {
-		if (n.getNodeType()==Node.ELEMENT_NODE) {
+		if (n.nodeType()==Node.ELEMENT_NODE) {
 			Element el = (Element)n;
-			if (el.getTagName()=="acteurs"){
-				NodeList nl = n.getChildNodes();
-				for(int i=0;i<nl.getLength();i++) {
+			if (el.tagName().equals("acteurs")){
+				NodeList nl = n.childNodes();
+				for(int i=0;i<nl.length();i++) {
 					this.acteur = new Acteur();
 					this.acteur.mandats = new ArrayList<>();
 					this.readActeur(nl.item(i));
@@ -33,33 +33,33 @@ class readDom {
 	
 	public void readActeur(Node n) {
 		Element el = (Element)n;
-		if (el.getTagName()=="etatCivil"){
-			this.readEtatCivil(n.getChildNodes().item(0));
+		if (el.tagName().equals("etatCivil")){
+			this.readEtatCivil(n.childNodes().item(0));
 		}
-		if (el.getName()=="mandats") {
-			NodeList nl = n.getChildNodes();
-			for(int i=0;i<nl.getLength();i++) {
+		if (el.tagName().equals("mandats")) {
+			NodeList nl = n.childNodes();
+			for(int i=0;i<nl.length();i++) {
 				this.mandat = new Mandat();
 				this.readMandat(nl.item(i));
 				this.acteur.mandats.add(this.mandat);
 			}
-			this.readMandats(n.getChildNodes().item(0));
+			this.readMandats(n.childNodes().item(0));
 		}
-		if (n.getNextSibling()!=null){
+		if (n.nextSibling()!=null){
 			this.readActeur(n.getNextSibling());
 		}
 	}
 	
 	public void readEtatCivil(Node n) {
 		Element el = (Element)n;
-		if (el.getTagName()=="ident"){
-			this.readIdent(n.getChildNodes().item(0));
+		if (el.getTagName().equa"ident"){
+			this.readIdent(n.childNodes().item(0));
 		}
 		if (el.getName()=="infoNaissance") {
-			this.readInfoNaissance(n.getChildNodes().item(0));
+			this.readInfoNaissance(n.childNodes().item(0));
 		}
 		if (n.getNextSibling()!=null){
-			this.readActeur(n.getNextSibling());
+			this.readActeur(n.nextSibling());
 		}
 	}
 	
@@ -118,6 +118,15 @@ class readDom {
 			this.readActeur(n.getNextSibling());
 		}
 	}
+	
+	public void load(String fichier) {
+	  try {
+	    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+	    DocumentBuilder db = dbf.newDocumentBuilder();
+	    doc = db.parse(fichier);
+	  } catch(Exception e) {System.out.println("Exception !");System.exit(0);}
+	}
+	
 	public static void main(String argv[]) {
 	  readDom dom = new readDom();
 	  dom.load("AMO30_tous_acteurs_tous_mandats_tous_organes_historique.xml");
