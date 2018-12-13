@@ -1,5 +1,8 @@
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+
+
 // Paquetages SAX
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -35,12 +38,14 @@ public class Sax extends DefaultHandler {
     // Organe lesOrganes = new ArrayList<>();
 
     public static void main(String[] args) {
+
         DefaultHandler handler = new Sax();
         try {
             long startTime = System.currentTimeMillis();
             XMLReader saxParser = XMLReaderFactory.createXMLReader();
             saxParser.setContentHandler(handler);
             saxParser.setErrorHandler(handler);
+            
             saxParser.parse("AMO30_tous_acteurs_tous_mandats_tous_organes_historique.xml");
             long endTime = System.currentTimeMillis();
             System.out.println("That took " + (endTime - startTime) + " milliseconds");
@@ -49,6 +54,11 @@ public class Sax extends DefaultHandler {
             t.printStackTrace();
         }
         System.exit(0);
+    }
+    public String utf8_encode(String chaine){
+      
+ // TODO
+        return chaine;
     }
 
     public void afficherOrganes() {
@@ -198,9 +208,11 @@ public class Sax extends DefaultHandler {
             this.inActeur = false;
 
             if (this.acteur.isPresident && this.acteur.isNantais) {
-
+                
                 String personne = "<personne nom=\"" + this.acteur.prenom + " " + this.acteur.nom + "\">";
-                System.out.println(personne);
+                
+
+                System.out.println(this.utf8_encode(personne));
                 String md;
                 for (Mandat unMandat : this.acteur.mandats) {
                     md = "<md ";
@@ -224,7 +236,7 @@ public class Sax extends DefaultHandler {
                         }
                     }
                     md += "</md>";
-                    System.out.println(md);
+                    System.out.println(this.utf8_encode(md));
                 }
                 personne += "</personne>";
                 System.out.println(personne);
@@ -293,7 +305,6 @@ class Mandat {
 class Acteur {
     public String nom;
     public String prenom;
-    public String dateNaissance;
     public ArrayList<Mandat> mandats;
     public Boolean isNantais = false;
     public Boolean isPresident = false;
