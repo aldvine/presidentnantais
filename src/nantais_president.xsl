@@ -7,7 +7,7 @@
         <nantais>
             <xsl:apply-templates
                 select="./acteurs/acteur[./etatCivil/infoNaissance/villeNais eq 'Nantes' and
-                count(./mandats/mandat/infosQualite/codeQualite[text() eq 'Président']) ge 1
+                count(./mandats/mandat/infosQualite/codeQualite[text() eq 'Prï¿½sident']) ge 1
                 ]"
             />
         </nantais>
@@ -16,7 +16,7 @@
    <xsl:template match="acteur">
        <xsl:element name="personne">
            <xsl:attribute name="nom" select="concat(./etatCivil/ident/prenom,' ',./etatCivil/ident/nom)"></xsl:attribute>
-           <xsl:apply-templates select="./mandats/*[./infosQualite/codeQualite/text() eq 'Président']"></xsl:apply-templates>
+           <xsl:apply-templates select="./mandats/*[./infosQualite/codeQualite/text() eq 'Prï¿½sident']"></xsl:apply-templates>
        </xsl:element>
     </xsl:template>
     
@@ -25,7 +25,7 @@
            
             <xsl:attribute name="code" select="./organes/organeRef/text()"></xsl:attribute>
             <xsl:if test="exists(./dateDebut/text())">
-                <xsl:attribute name="début" select="./dateDebut/text()"></xsl:attribute>
+                <xsl:attribute name="dï¿½but" select="./dateDebut/text()"></xsl:attribute>
             </xsl:if>
             <xsl:if test="exists(./dateFin/text())">
                 <xsl:attribute name="fin" select="./dateFin/text()"></xsl:attribute>
