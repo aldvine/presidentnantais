@@ -6,15 +6,6 @@ where $presidentNantais ge 1
 return 
     <personne nom='{$acteurNantais/etatCivil/ident/nom/text()}' prenom='{$acteurNantais/etatCivil/ident/prenom/text()}'>
         {for $mandat in $acteurNantais/mandats/mandat[./infosQualite/codeQualite[text() eq "Président"]]
-         let $code := if ($mandat/organes/organeRef/text() ne "")
-                        then $mandat/organes/organeRef/text()
-                        else ""
-         let $dateDebut := if ($mandat/dateDebut/text() ne "")
-                        then $mandat/dateDebut/text()
-                        else ""
-         let $dateFin := if ($mandat/dateFin/text() ne "")
-                        then $mandat/dateFin/text()
-                        else false()
          return element md {if ($mandat/organes/organeRef/text() ne "") then attribute code {$mandat/organes/organeRef/text()} else "",
                             if ($mandat/dateDebut/text() ne "") then attribute debut {$mandat/dateDebut/text()} else "",
                             if ($mandat/dateFin/text() ne "") then attribute fin {$mandat/dateFin/text()} else "", 
