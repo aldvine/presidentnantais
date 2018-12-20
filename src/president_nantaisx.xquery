@@ -6,11 +6,14 @@ where $presidentNantais ge 1
 return 
     <personne nom='{$acteurNantais/etatCivil/ident/nom/text()}' prenom='{$acteurNantais/etatCivil/ident/prenom/text()}'>
         {for $mandat in $acteurNantais/mandats/mandat[./infosQualite/codeQualite[text() eq "Président"]]
+         let $code := if ($mandat/organes/organeRef/text() ne "")
+                        then $mandat/organes/organeRef/text()
+                        else ""
          return 
-            <md code='{$mandat/organes/organeRef/text()}'     
+            <md $code     
                 debut='{$mandat/dateDebut/text()}'
                 fin='{$mandat/dateFin/text()}' legislature='{$mandat/legislature/text()}' pub='{$mandat/datePublication/text()}'>
-                { doc("AMO30_tous_acteurs_tous_mandats_tous_organes_historique.xml")/export/organes/organe[./uid/text() eq $mandat/organes/organeRef/text()]/libelle/text()}
+                { doc('AMO30_tous_acteurs_tous_mandats_tous_organes_historique.xml')/export/organes/organe[./uid/text() eq $mandat/organes/organeRef/text()]/libelle/text()}
              </md>
         }
     </personne>}
