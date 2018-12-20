@@ -9,12 +9,19 @@ return
          let $code := if ($mandat/organes/organeRef/text() ne "")
                         then $mandat/organes/organeRef/text()
                         else ""
-         return 
-            <md $code     
-                debut='{$mandat/dateDebut/text()}'
-                fin='{$mandat/dateFin/text()}' legislature='{$mandat/legislature/text()}' pub='{$mandat/datePublication/text()}'>
-                { doc('AMO30_tous_acteurs_tous_mandats_tous_organes_historique.xml')/export/organes/organe[./uid/text() eq $mandat/organes/organeRef/text()]/libelle/text()}
-             </md>
-        }
+         let $dateDebut := if ($mandat/dateDebut/text() ne "")
+                        then $mandat/dateDebut/text()
+                        else ""
+         let $dateFin := if ($mandat/dateFin/text() ne "")
+                        then $mandat/dateFin/text()
+                        else false()
+         return element md {if ($mandat/organes/organeRef/text() ne "") then attribute code {$mandat/organes/organeRef/text()} else "",
+                            if ($mandat/dateDebut/text() ne "") then attribute debut {$mandat/dateDebut/text()} else "",
+                            if ($mandat/dateFin/text() ne "") then attribute fin {$mandat/dateFin/text()} else "", 
+                            if ($mandat/legislature/text() ne "") then attribute legislature {$mandat/legislature/text()} else "",
+                            if ($mandat/datePublication/text() ne "") then attribute pub {$mandat/datePublication/text()} else "",
+                            doc('AMO30_tous_acteurs_tous_mandats_tous_organes_historique.xml')/export/organes/organe[./uid/text() eq $mandat/organes/organeRef/text()]/libelle/text()
+             }
+         }
     </personne>}
 </nantais>
