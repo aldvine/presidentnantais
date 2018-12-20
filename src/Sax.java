@@ -1,5 +1,4 @@
-import java.io.File;
-import java.nio.charset.StandardCharsets;
+
 import java.util.ArrayList;
 
 
@@ -9,6 +8,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
+
 
 // Description du gestionnaire d'événements spécifique
 public class Sax extends DefaultHandler {
@@ -38,27 +38,20 @@ public class Sax extends DefaultHandler {
     // Organe lesOrganes = new ArrayList<>();
 
     public static void main(String[] args) {
-
         DefaultHandler handler = new Sax();
         try {
-            // long startTime = System.currentTimeMillis();
+
             XMLReader saxParser = XMLReaderFactory.createXMLReader();
             saxParser.setContentHandler(handler);
             saxParser.setErrorHandler(handler);
-            
             saxParser.parse("AMO30_tous_acteurs_tous_mandats_tous_organes_historique.xml");
-            // long endTime = System.currentTimeMillis();
-            // System.out.println("That took " + (endTime - startTime) + " milliseconds");
 
         } catch (Throwable t) {
             t.printStackTrace();
         }
         System.exit(0);
     }
-    public String utf8_encode(String chaine){
-        // TODO
-        return chaine;
-    }
+   
 
     public void afficherOrganes() {
         for (Organe org : this.lesOrganes) {
@@ -68,7 +61,7 @@ public class Sax extends DefaultHandler {
 
     // Méthodes surchargées
     public void startDocument() throws SAXException {
-        System.out.println("<?xml version=\"1.0\" encoding=\"UTF-8\" ?><!DOCTYPE nantais SYSTEM \"ex.dtd\" ><nantais>");
+        System.out.println("<?xml version=\"1.0\" encjaoding=\"UTF-8\" ?><!DOCTYPE nantais SYSTEM \"ex.dtd\" >\n<nantais>");
     }
 
     public void endDocument() throws SAXException {
@@ -203,16 +196,16 @@ public class Sax extends DefaultHandler {
 
             if (this.acteur.isPresident && this.acteur.isNantais) {
                 
-                String personne = "<personne nom=\"" + this.acteur.prenom + " " + this.acteur.nom + "\">";
+                String personne = "\u0009<personne nom=\"" + this.acteur.prenom + " " + this.acteur.nom + "\">";
                 
 
-                System.out.println(this.utf8_encode(personne));
+                System.out.println(personne);
                 String md;
                 for (Mandat unMandat : this.acteur.mandats) {
-                    md = "<md ";
+                    md = "\u0009\u0009<md ";
                     md += "code=\"" + unMandat.organeRef + "\" ";
                     if (unMandat.dateDebut != null && !unMandat.dateDebut.isEmpty()) {
-                        md += "d\u00e9but=\"" + unMandat.dateDebut + "\" ";
+                        md += "début=\"" + unMandat.dateDebut + "\" ";
                     }
                     if (unMandat.dateFin != null && !unMandat.dateFin.isEmpty()) {
                         md += "fin=\"" + unMandat.dateFin + "\" ";
@@ -229,10 +222,10 @@ public class Sax extends DefaultHandler {
                             break;
                         }
                     }
-                    md += "</md>";
-                    System.out.println(this.utf8_encode(md));
+                    md += "\n\u0009\u0009</md>";
+                    System.out.println(md);
                 }
-                personne += "</personne>";
+                personne = "\u0009</personne>";
                 System.out.println(personne);
             }
         }
