@@ -197,7 +197,7 @@ class ReadDom {
 			this.readInfosQualite(n.getFirstChild());
 		}
 		if (el.getTagName().equals("organes") && n.getFirstChild() != null) {
-			// TODO
+		
 
 			if (n.getFirstChild().getFirstChild() != null) {
 				this.mandat.organeRef = n.getFirstChild().getFirstChild().getNodeValue();
