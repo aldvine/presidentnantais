@@ -4,7 +4,7 @@ xquery version "1.0" encoding "utf-8";
 let $presidentNantais := $acteurNantais/count(./mandats/mandat/infosQualite/codeQualite[text() eq "Président"]) 
 where $presidentNantais ge 1
 return 
-    <personne nom='{$acteurNantais/etatCivil/ident/nom/text()}' prenom='{$acteurNantais/etatCivil/ident/prenom/text()}'>
+    <personne nom='{$acteurNantais/etatCivil/ident/prenom/text()} {$acteurNantais/etatCivil/ident/nom/text()}'>
         {for $mandat in $acteurNantais/mandats/mandat[./infosQualite/codeQualite[text() eq "Président"]]
          return element md {if ($mandat/organes/organeRef/text() ne "") then attribute code {$mandat/organes/organeRef/text()} else "",
                             if ($mandat/dateDebut/text() ne "") then attribute debut {$mandat/dateDebut/text()} else "",

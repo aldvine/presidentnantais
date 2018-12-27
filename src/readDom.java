@@ -30,12 +30,12 @@ class ReadDom {
 					// System.out.println(this.acteur.isNantais+" "+this.acteur.isPresident);
 
 					if (this.acteur.isPresident && this.acteur.isNantais) {
-						String personne = "<personne nom=\"" + this.acteur.nom + " " + this.acteur.prenom + "\">";
+						String personne = "\u0009<personne nom=\"" + this.acteur.prenom + " " + this.acteur.nom + "\">";
 						System.out.println(personne);
 						String md;
 						for (Mandat unMandat : this.acteur.mandats) {
 
-							md = "<md ";
+							md = "\u0009\u0009<md ";
 							md += "code=\"" + unMandat.organeRef + "\" ";
 							if (unMandat.dateDebut != null && !unMandat.dateDebut.isEmpty()) {
 								md += "d\u00e9but=\"" + unMandat.dateDebut + "\" ";
@@ -53,11 +53,11 @@ class ReadDom {
 							// recherche du libelle de l'organe
 							this.readOrganes(dom.doc.getDocumentElement().getFirstChild(), unMandat);
 							md += this.organe.libelle;
-							md += "</md>";
+							md += "\n\u0009\u0009</md>";
 							System.out.println(md);
 						}
 
-						System.out.println( "</personne>");
+						System.out.println( "\u0009</personne>");
 					}
 				}
 			} else {
