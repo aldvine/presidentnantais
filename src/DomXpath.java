@@ -69,7 +69,7 @@ class DomXpath {
 
 				// recherche du libelle de l'organe
 				// this.readOrganes(dom.doc.getDocumentElement().getFirstChild(), unMandat);
-				md += this.queryString("/export/organes/organe[./uid/text() eq "+code+"]/libelle/text()", root) ;
+				md += this.queryString("/export/organes/organe[./uid/text() = '"+code+"']/libelle/text()", root) ;
 				md += "\n\u0009\u0009</md>";
 				System.out.println(md);
 			}
