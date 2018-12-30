@@ -16,4 +16,5 @@ echo "Execution du fichier avec calcul du temps d'execution"
 time -f %E java ReadDom > readdom.xml
 # xslt
 touch xslt.xml
-time -f %E java -jar saxon9he.jar -xsl:nantais_president.xsl -s:xslt.xml
+time -f %E java -jar saxon9.jar -xsl:nantais_president.xsl -s:xslt.xml
+# xquery TODO
