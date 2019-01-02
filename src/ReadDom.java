@@ -243,7 +243,8 @@ class ReadDom {
 
 	public static void main(String argv[]) {
 		ReadDom dom = new ReadDom();
-		dom.load("AMO30_tous_acteurs_tous_mandats_tous_organes_historique.xml");
+		dom.load("source.xml");
+		System.out.println("<?xml version=\"1.0\" encjaoding=\"UTF-8\" ?><!DOCTYPE nantais SYSTEM \"ex.dtd\" >\n<nantais>");
 		System.out.println("<nantais>");
 		dom.read(dom.doc.getDocumentElement().getFirstChild(), dom);
 		System.out.println("</nantais>");

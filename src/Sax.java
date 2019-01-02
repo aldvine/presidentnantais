@@ -44,7 +44,7 @@ public class Sax extends DefaultHandler {
             XMLReader saxParser = XMLReaderFactory.createXMLReader();
             saxParser.setContentHandler(handler);
             saxParser.setErrorHandler(handler);
-            saxParser.parse("AMO30_tous_acteurs_tous_mandats_tous_organes_historique.xml");
+            saxParser.parse("source.xml");
 
         } catch (Throwable t) {
             t.printStackTrace();
