@@ -4,7 +4,6 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import javax.xml.parsers.DocumentBuilder;
-import java.util.ArrayList;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -14,20 +13,18 @@ import org.w3c.dom.Element;
 class DomXpath {
 	public Document doc;
 	NodeList pn;
-	Organe organe;
-	Acteur acteur;
-	Mandat mandat;
-
 	String expression;
 	XPathFactory xpf;
 	XPath path;
 
 	public void read(Element root) {
+		// instanciation de xpath
 		this.xpf = XPathFactory.newInstance();
 		this.path = this.xpf.newXPath();
 
-		// version de xpath 1 donc = au lieu de eq
+		// version de xpath 1 donc = au lieu de eq pour chaque requête
 		this.expression = "/export/acteurs/acteur[./etatCivil/infoNaissance/villeNais/text() = 'Nantes'  and count(./mandats/mandat/infosQualite/codeQualite[text() = 'Pr\u00e9sident']) >=1 ]";
+		// récuperation des acteurs qui sont nantais et qui ont été président.
 		this.pn = (NodeList) this.queryNL(this.expression, root);
 
 		for (int i = 0; i < this.pn.getLength(); i++) {
@@ -78,7 +75,9 @@ class DomXpath {
 		}
 
 	}
-
+	// retourne une liste de noeuds Nodelist
+	// expr correspond à la requete 
+	// root correspond au noeud racine pour la requête
 	public NodeList queryNL(String expr, Node root) {
 		try {
 			NodeList res = (NodeList) this.path.evaluate(expr, root, XPathConstants.NODESET);
@@ -88,6 +87,7 @@ class DomXpath {
 		}
 	};
 
+	//retourne un noeud
 	public Node queryNode(String expr, Node root) {
 		try {
 			Node res = (Node) this.path.evaluate(expr, root, XPathConstants.NODE);
@@ -97,6 +97,7 @@ class DomXpath {
 		}
 	};
 
+	// retourne une chaine de caractère string
 	public String queryString(String expr, Node root) {
 		try {
 			String res = (String) this.path.evaluate(expr, root, XPathConstants.STRING);
@@ -106,6 +107,7 @@ class DomXpath {
 		}
 	};
 
+	// chargement du fichier source
 	public void load(String fichier) {
 		try {
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -124,35 +126,13 @@ class DomXpath {
 			System.exit(0);
 		}
 	}
-
+//  chargement du fichier source et lancement du programme 
 	public static void main(String argv[]) {
 		DomXpath dom = new DomXpath();
 		dom.load("AMO30_tous_acteurs_tous_mandats_tous_organes_historique.xml");
 		System.out.println("<nantais>");
-
 		dom.read(dom.doc.getDocumentElement());
 		System.out.println("</nantais>");
 	}
 }
 
-class Organe {
-	public String code;
-	public String libelle;
-}
-
-class Mandat {
-	public String dateDebut;
-	public String datePublication;
-	public String dateFin;
-	public String legislature;
-	public String organeRef;
-	public Boolean president = false;
-}
-
-class Acteur {
-	public String nom;
-	public String prenom;
-	public ArrayList<Mandat> mandats;
-	public Boolean isNantais = false;
-	public Boolean isPresident = false;
-}
