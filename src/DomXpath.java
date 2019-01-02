@@ -27,20 +27,21 @@ class DomXpath {
 		// récuperation des acteurs qui sont nantais et qui ont été président.
 		this.pn = (NodeList) this.queryNL(this.expression, root);
 
+		// pour tous les résultats (présidents nantais)
 		for (int i = 0; i < this.pn.getLength(); i++) {
 
-			// Element el = (Element) nodes.item(i);
+			// on récupere les infos de la personne ( nom, prenom)
 			String nom = this.queryString("./etatCivil/ident/nom/text()", this.pn.item(i));
 			String prenom = this.queryString("./etatCivil/ident/prenom/text()", this.pn.item(i));
-
+			// création de l'élement personne 
 			String personne = "\u0009<personne nom=\"" + prenom + " " + nom + "\">";
 			System.out.println(personne);
 
-			// recuperation de tous les mandats
-
+			// recuperation de tous les mandats de la personne
 			NodeList mandats = this.queryNL("./mandats/mandat[./infosQualite/codeQualite[text() = 'Pr\u00e9sident']]",
 					this.pn.item(i));
 			String md;
+			// pour chaque mandat, on créer un élement mandats avec tous les attributs de la dtd.
 			for (int j = 0; j < mandats.getLength(); j++) {
 				String code = this.queryString("./organes/organeRef/text()", mandats.item(j));
 				String deb = this.queryString("./dateDebut/text()", mandats.item(j));
@@ -65,7 +66,6 @@ class DomXpath {
 				md += ">";
 
 				// recherche du libelle de l'organe
-				// this.readOrganes(dom.doc.getDocumentElement().getFirstChild(), unMandat);
 				md += this.queryString("/export/organes/organe[./uid/text() = '"+code+"']/libelle/text()", root) ;
 				md += "\n\u0009\u0009</md>";
 				System.out.println(md);
