@@ -129,8 +129,8 @@ class DomXpath {
 //  chargement du fichier source et lancement du programme 
 	public static void main(String argv[]) {
 		DomXpath dom = new DomXpath();
-		dom.load("source.xml");
-		System.out.println("<?xml version=\"1.0\" encjaoding=\"UTF-8\" ?><!DOCTYPE nantais SYSTEM \"ex.dtd\" >\n<nantais>");l
+		dom.load("AMO30_tous_acteurs_tous_mandats_tous_organes_historique.xml");
+		System.out.println("<?xml version=\"1.0\" encoding=\"UTF-8\" ?><!DOCTYPE nantais SYSTEM \"ex.dtd\" >\n<nantais>");
 		System.out.println("<nantais>");
 		dom.read(dom.doc.getDocumentElement());
 		System.out.println("</nantais>");

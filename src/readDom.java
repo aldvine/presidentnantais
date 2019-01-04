@@ -250,7 +250,7 @@ class ReadDom {
 
 	public static void main(String argv[]) {
 		ReadDom dom = new ReadDom();
-		dom.load("source.xml");
+		dom.load("AMO30_tous_acteurs_tous_mandats_tous_organes_historique.xml");
 		System.out.println("<nantais>");
 		dom.read(dom.doc.getDocumentElement().getFirstChild(), dom);
 		System.out.println("</nantais>");
