@@ -19,16 +19,18 @@ class ReadDom {
 			Element el = (Element) n;
 			if (el.getTagName().equals("acteurs")) {
 				NodeList nl = n.getChildNodes();
+				// parcours de tout acteurs
 				for (int i = 0; i < nl.getLength(); i++) {
 
+					// initialisation des variables
 					this.acteur = new Acteur();
 					this.acteur.isNantais = false;
 					this.acteur.isPresident = false;
 					this.acteur.mandats = new ArrayList<>();
+					// lecture de l'acteur
 					this.readActeur(nl.item(i).getFirstChild());
 
-					// System.out.println(this.acteur.isNantais+" "+this.acteur.isPresident);
-
+					// si c'est un acteur né à nantes et qu'il a été président on l'ajoute dans le fichier final avec tous ses mandats
 					if (this.acteur.isPresident && this.acteur.isNantais) {
 						String personne = "\u0009<personne nom=\"" + this.acteur.prenom + " " + this.acteur.nom + "\">";
 						System.out.println(personne);
@@ -78,10 +80,10 @@ class ReadDom {
 			this.readOrganes(n.getNextSibling(), unMandat);
 		}
 	}
-
+	
 	public void readNextOrgane(Node n, Mandat unMandat) {
 		Element el = (Element) n;
-
+		
 		if (el.getTagName().equals("organe") && n.getFirstChild() != null) {
 			this.readOrgane(n.getFirstChild(), unMandat);
 		}
@@ -89,7 +91,7 @@ class ReadDom {
 			this.readNextOrgane(n.getNextSibling(), unMandat);
 		}
 	}
-
+	// récuperation des infos 
 	public void readOrgane(Node n, Mandat unMandat) {
 		Element el = (Element) n;
 
@@ -110,6 +112,7 @@ class ReadDom {
 		}
 	}
 
+	//récuperation des infos de l'acteur
 	public void readActeur(Node n) {
 		Element el = (Element) n;
 		if (el.getTagName().equals("etatCivil")) {
@@ -130,7 +133,7 @@ class ReadDom {
 			this.readActeur(n.getNextSibling());
 		}
 	}
-
+	
 	public void readEtatCivil(Node n) {
 		Element el = (Element) n;
 
@@ -146,6 +149,7 @@ class ReadDom {
 		}
 	}
 
+	// récuperation de l'identité
 	public void readIdent(Node n) {
 		Element el = (Element) n;
 		if (el.getTagName().equals("prenom")) {
@@ -159,6 +163,7 @@ class ReadDom {
 		}
 	}
 
+	// vérification si nantais
 	public void readInfoNaissance(Node n) {
 		Element el = (Element) n;
 
@@ -173,6 +178,7 @@ class ReadDom {
 		}
 	}
 
+	// récuperation des infos des mandats
 	public void readMandat(Node n) {
 		Element el = (Element) n;
 		if (el.getTagName().equals("dateDebut") && n.getFirstChild() != null) {
@@ -209,6 +215,7 @@ class ReadDom {
 
 	}
 
+	// verification si president 
 	public void readInfosQualite(Node n) {
 		Element el = (Element) n;
 		if (el.getTagName() == "codeQualite" && n.getFirstChild() != null) {
@@ -244,7 +251,6 @@ class ReadDom {
 	public static void main(String argv[]) {
 		ReadDom dom = new ReadDom();
 		dom.load("source.xml");
-		System.out.println("<?xml version=\"1.0\" encjaoding=\"UTF-8\" ?><!DOCTYPE nantais SYSTEM \"ex.dtd\" >\n<nantais>");
 		System.out.println("<nantais>");
 		dom.read(dom.doc.getDocumentElement().getFirstChild(), dom);
 		System.out.println("</nantais>");
