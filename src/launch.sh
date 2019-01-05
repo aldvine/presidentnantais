@@ -2,7 +2,7 @@
 echo "--------------------------"
 # dom Xpath
 echo "Compilation du fichier Dom avec Xpath"
-javac DomXpath.java
+javac "DomXpath.java"
 echo "Execution Dom avec xpath avec calcul du temps d'execution"
 /usr/bin/time -f %E java DomXpath > domxpath.xml 
 echo "--------------------------"

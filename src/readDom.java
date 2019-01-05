@@ -13,6 +13,7 @@ class ReadDom {
 	Acteur acteur;
 	Mandat mandat;
 
+	// traitement principal du programme
 	public void read(Node n, ReadDom dom) {
 
 		if (n.getNodeType() == Node.ELEMENT_NODE) {
@@ -35,6 +36,7 @@ class ReadDom {
 						String personne = "\u0009<personne nom=\"" + this.acteur.prenom + " " + this.acteur.nom + "\">";
 						System.out.println(personne);
 						String md;
+						
 						for (Mandat unMandat : this.acteur.mandats) {
 
 							md = "\u0009\u0009<md ";
@@ -70,6 +72,7 @@ class ReadDom {
 		}
 	}
 
+	// fonction permettant de récupérer le noeud organes
 	public void readOrganes(Node n, Mandat unMandat) {
 		Element el = (Element) n;
 
@@ -81,6 +84,7 @@ class ReadDom {
 		}
 	}
 	
+	// récupération des noeuds organes
 	public void readNextOrgane(Node n, Mandat unMandat) {
 		Element el = (Element) n;
 		
@@ -91,7 +95,7 @@ class ReadDom {
 			this.readNextOrgane(n.getNextSibling(), unMandat);
 		}
 	}
-	// récuperation des infos 
+	// récuperation des infos d'un organe
 	public void readOrgane(Node n, Mandat unMandat) {
 		Element el = (Element) n;
 
@@ -134,6 +138,7 @@ class ReadDom {
 		}
 	}
 	
+	// récupération des infos de l'état civil d'un acteur
 	public void readEtatCivil(Node n) {
 		Element el = (Element) n;
 
@@ -149,7 +154,7 @@ class ReadDom {
 		}
 	}
 
-	// récuperation de l'identité
+	// récuperation de l'identité d'un acteur
 	public void readIdent(Node n) {
 		Element el = (Element) n;
 		if (el.getTagName().equals("prenom")) {
@@ -163,7 +168,7 @@ class ReadDom {
 		}
 	}
 
-	// vérification si nantais
+	// récupération de la ville naissance et vérification si nantais
 	public void readInfoNaissance(Node n) {
 		Element el = (Element) n;
 
@@ -215,7 +220,7 @@ class ReadDom {
 
 	}
 
-	// verification si president 
+	// récupération du code qualité du mandat et verification si president 
 	public void readInfosQualite(Node n) {
 		Element el = (Element) n;
 		if (el.getTagName() == "codeQualite" && n.getFirstChild() != null) {
@@ -229,6 +234,7 @@ class ReadDom {
 		}
 	}
 
+	// chargement du fichier XML à traiter
 	public void load(String fichier) {
 		try {
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
